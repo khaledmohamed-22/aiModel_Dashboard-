@@ -1,0 +1,3257 @@
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap");
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  :root {
+    --bg: #0a0f1e;
+    --bg2: #0f1628;
+    --bg3: #141c35;
+    --card: #161e38;
+    --border: #2a3558;
+    --border2: #3a4a70;
+    --text: #e8eeff;
+    --text2: #8899cc;
+    --text3: #4a5c8a;
+    --accent: #4f8ef7;
+    --accent2: #7c3aed;
+    --accent3: #06d6a0;
+    --accent4: #ff6b6b;
+    --gold: #f59e0b;
+    --font: "DM Sans", sans-serif;
+    --font2: "Syne", sans-serif;
+  }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  .app {
+    display: flex;
+    min-height: 100vh;
+  }
+  .sidebar {
+    width: 220px;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    z-index: 100;
+  }
+  .logo {
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .logo-text {
+    font-family: var(--font2);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+  }
+  .logo-sub {
+    font-size: 10px;
+    color: var(--text2);
+    margin-top: 1px;
+  }
+  .nav {
+    padding: 12px 0;
+    flex: 1;
+    overflow-y: auto;
+  }
+  .nav-label {
+    font-size: 10px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 8px 20px 4px;
+    font-weight: 500;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 20px;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 13px;
+    border-left: 2px solid transparent;
+    margin: 1px 0;
+  }
+  .nav-item:hover {
+    color: var(--text);
+    background: rgba(79, 142, 247, 0.08);
+    border-left-color: var(--accent);
+  }
+  .nav-item.active {
+    color: var(--accent);
+    background: rgba(79, 142, 247, 0.12);
+    border-left-color: var(--accent);
+    font-weight: 500;
+  }
+  .nav-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.8;
+  }
+  .sidebar-footer {
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+  }
+  .user-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .user-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .user-role {
+    font-size: 11px;
+    color: var(--text3);
+  }
+  .main {
+    margin-left: 220px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  .topbar {
+    height: 56px;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .topbar-title {
+    font-family: var(--font2);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    flex: 1;
+  }
+  .search-box {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    min-width: 200px;
+  }
+  .search-box input {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-size: 12px;
+    font-family: var(--font);
+    width: 140px;
+  }
+  .search-box input::placeholder {
+    color: var(--text3);
+  }
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text2);
+    position: relative;
+  }
+  .badge {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    width: 14px;
+    height: 14px;
+    background: var(--accent4);
+    border-radius: 50%;
+    font-size: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #fff;
+  }
+  .content {
+    padding: 24px;
+    flex: 1;
+  }
+  .page {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+  .page.active {
+    display: block;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-family: var(--font2);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .section-sub {
+    font-size: 12px;
+    color: var(--text2);
+    margin-top: 2px;
+  }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .tag-blue {
+    background: rgba(79, 142, 247, 0.15);
+    color: #7eb8f7;
+    border: 1px solid rgba(79, 142, 247, 0.25);
+  }
+  .tag-green {
+    background: rgba(6, 214, 160, 0.15);
+    color: #06d6a0;
+    border: 1px solid rgba(6, 214, 160, 0.25);
+  }
+  .tag-red {
+    background: rgba(255, 107, 107, 0.15);
+    color: #ff8888;
+    border: 1px solid rgba(255, 107, 107, 0.25);
+  }
+  .tag-amber {
+    background: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.25);
+  }
+  .tag-purple {
+    background: rgba(124, 58, 237, 0.15);
+    color: #a78bfa;
+    border: 1px solid rgba(124, 58, 237, 0.25);
+  }
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+  .card:hover {
+    border-color: var(--border2);
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 0 12px 0 60px;
+    opacity: 0.08;
+  }
+  .stat-card.blue::before {
+    background: var(--accent);
+  }
+  .stat-card.green::before {
+    background: var(--accent3);
+  }
+  .stat-card.red::before {
+    background: var(--accent4);
+  }
+  .stat-card.purple::before {
+    background: var(--accent2);
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .stat-value {
+    font-family: var(--font2);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1;
+  }
+  .stat-change {
+    font-size: 11px;
+    margin-top: 6px;
+  }
+  .stat-change.up {
+    color: var(--accent3);
+  }
+  .stat-icon {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  .stat-icon.blue {
+    background: rgba(79, 142, 247, 0.15);
+    color: var(--accent);
+  }
+  .stat-icon.green {
+    background: rgba(6, 214, 160, 0.15);
+    color: var(--accent3);
+  }
+  .stat-icon.red {
+    background: rgba(255, 107, 107, 0.15);
+    color: var(--accent4);
+  }
+  .stat-icon.purple {
+    background: rgba(124, 58, 237, 0.15);
+    color: var(--accent2);
+  }
+  .chart-container {
+    position: relative;
+    width: 100%;
+    height: 240px;
+  }
+  .chart-container.short {
+    height: 180px;
+  }
+  .chart-container.tall {
+    height: 300px;
+  }
+
+  /* ========== PREDICT PAGE ========== */
+  .predict-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 4px;
+  }
+  .form-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .label-left {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .tooltip-icon {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--border2);
+    color: var(--text3);
+    font-size: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: help;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  /* THE KEY PART: each field row */
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 64px;
+    gap: 8px;
+    align-items: center;
+  }
+  .field-slider-col {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* Slider */
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border2);
+    outline: none;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    box-shadow: 0 0 0 3px rgba(79, 142, 247, 0.2);
+    transition:
+      background 0.3s,
+      transform 0.15s;
+  }
+  input[type="range"]:active::-webkit-slider-thumb {
+    transform: scale(1.2);
+  }
+
+  /* Number input */
+  .num-input {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 7px 8px;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--font);
+    outline: none;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+    width: 100%;
+    text-align: center;
+  }
+  .num-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(79, 142, 247, 0.12);
+  }
+  .num-input.high {
+    border-color: rgba(255, 107, 107, 0.5);
+    color: #ff8888;
+  }
+  .num-input.warn {
+    border-color: rgba(245, 158, 11, 0.4);
+    color: #f59e0b;
+  }
+  .num-input.ok {
+    border-color: rgba(6, 214, 160, 0.4);
+    color: #06d6a0;
+  }
+
+  /* Range fill track */
+  .range-track-wrap {
+    position: relative;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border2);
+    overflow: hidden;
+  }
+  .range-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: 2px;
+    transition:
+      width 0.15s,
+      background 0.3s;
+  }
+
+  /* Live mini-bar per field */
+  .field-mini-bar {
+    height: 3px;
+    border-radius: 2px;
+    background: var(--border);
+    margin-top: 2px;
+    overflow: hidden;
+  }
+  .field-mini-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition:
+      width 0.2s ease,
+      background 0.3s;
+  }
+
+  /* Live risk preview panel */
+  .risk-preview {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s;
+  }
+  .risk-preview.high {
+    border-color: rgba(255, 107, 107, 0.4);
+  }
+  .risk-preview.med {
+    border-color: rgba(245, 158, 11, 0.4);
+  }
+  .risk-preview.low {
+    border-color: rgba(6, 214, 160, 0.4);
+  }
+  .rp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .rp-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .rp-live-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent3);
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.5;
+      transform: scale(0.8);
+    }
+  }
+  .rp-pct {
+    font-family: var(--font2);
+    font-size: 28px;
+    font-weight: 700;
+    transition: color 0.3s;
+    line-height: 1;
+  }
+  .rp-bar-wrap {
+    height: 10px;
+    border-radius: 5px;
+    background: var(--border);
+    overflow: hidden;
+    margin: 10px 0 8px;
+  }
+  .rp-bar-fill {
+    height: 100%;
+    border-radius: 5px;
+    transition:
+      width 0.4s ease,
+      background 0.3s;
+  }
+  .rp-factors {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .rp-factor {
+    background: var(--card);
+    border-radius: 8px;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+  }
+  .rp-factor-name {
+    font-size: 10px;
+    color: var(--text3);
+    margin-bottom: 3px;
+  }
+  .rp-factor-bar {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border);
+    overflow: hidden;
+  }
+  .rp-factor-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition:
+      width 0.3s,
+      background 0.3s;
+  }
+  .rp-factor-val {
+    font-size: 11px;
+    font-weight: 500;
+    margin-top: 3px;
+    transition: color 0.3s;
+  }
+
+  /* Feature breakdown bar list */
+  .breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .breakdown-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .breakdown-name {
+    font-size: 11px;
+    color: var(--text2);
+    width: 90px;
+    flex-shrink: 0;
+  }
+  .breakdown-track {
+    flex: 1;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--border);
+    overflow: hidden;
+  }
+  .breakdown-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition:
+      width 0.35s ease,
+      background 0.3s;
+  }
+  .breakdown-pct {
+    font-size: 10px;
+    color: var(--text3);
+    width: 30px;
+    text-align: right;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    font-family: var(--font);
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(79, 142, 247, 0.3);
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(79, 142, 247, 0.4);
+  }
+  .btn-outline {
+    background: transparent;
+    border: 1px solid var(--border2);
+    color: var(--text2);
+  }
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 16px 0;
+  }
+  .result-card {
+    background: linear-gradient(135deg, var(--bg2), var(--bg3));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    display: none;
+  }
+  .result-card.show {
+    display: block;
+    animation: fadeIn 0.4s ease;
+  }
+  .risk-gauge {
+    position: relative;
+    width: 160px;
+    height: 80px;
+    margin: 0 auto 10px;
+  }
+  .gauge-svg {
+    width: 100%;
+    height: 100%;
+  }
+  .risk-pct-big {
+    font-family: var(--font2);
+    font-size: 30px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1;
+  }
+  .risk-label-sm {
+    font-size: 12px;
+    color: var(--text2);
+    text-align: center;
+    margin-top: 4px;
+  }
+  .insight-card {
+    background: var(--bg3);
+    border-radius: 10px;
+    padding: 12px;
+    border-left: 3px solid var(--accent);
+    margin-bottom: 6px;
+  }
+  .insight-card.warn {
+    border-left-color: var(--accent4);
+  }
+  .insight-card.ok {
+    border-left-color: var(--accent3);
+  }
+  .insight-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .insight-text {
+    font-size: 11px;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+  .loading-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 15, 30, 0.8);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .loading-overlay.show {
+    display: flex;
+  }
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .feature-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(42, 53, 88, 0.3);
+  }
+  .feature-bar:last-child {
+    border-bottom: none;
+  }
+  .feature-name {
+    font-size: 12px;
+    color: var(--text2);
+    width: 200px;
+    flex-shrink: 0;
+  }
+  .feature-track {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .feature-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+  .feature-pct {
+    font-size: 11px;
+    color: var(--text3);
+    width: 36px;
+    text-align: right;
+  }
+  .alert-banner {
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: #f59e0b;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .pill-high {
+    background: rgba(255, 107, 107, 0.15);
+    color: #ff8888;
+  }
+  .pill-med {
+    background: rgba(245, 158, 11, 0.15);
+    color: #f59e0b;
+  }
+  .pill-low {
+    background: rgba(6, 214, 160, 0.15);
+    color: #06d6a0;
+  }
+  .table-wrap {
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th {
+    text-align: left;
+    font-size: 11px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-weight: 500;
+  }
+  td {
+    padding: 11px 14px;
+    border-bottom: 1px solid rgba(42, 53, 88, 0.5);
+    font-size: 13px;
+    color: var(--text2);
+  }
+  tr:last-child td {
+    border-bottom: none;
+  }
+  tr:hover td {
+    background: rgba(79, 142, 247, 0.04);
+    color: var(--text);
+  }
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+  }
+  .dot-green {
+    background: var(--accent3);
+  }
+  .dot-red {
+    background: var(--accent4);
+  }
+  .dot-amber {
+    background: var(--gold);
+  }
+  .model-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: var(--bg3);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid var(--border);
+  }
+  .model-chip.best {
+    border-color: var(--accent);
+    background: rgba(79, 142, 247, 0.05);
+  }
+  .model-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .model-metrics {
+    display: flex;
+    gap: 12px;
+  }
+  .model-metric {
+    font-size: 11px;
+    color: var(--text3);
+  }
+  .model-metric span {
+    color: var(--text2);
+    font-weight: 500;
+  }
+  .form-input {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: var(--text);
+    font-size: 13px;
+    font-family: var(--font);
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .form-input:focus {
+    border-color: var(--accent);
+  }
+  @media (max-width: 900px) {
+    .predict-layout {
+      grid-template-columns: 1fr;
+    }
+    .grid-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .rp-factors {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+
+<div class="loading-overlay" id="loadOverlay">
+  <div class="spinner"></div>
+  <div style="font-size: 13px; color: var(--text2)">
+    Analyzing patient data...
+  </div>
+</div>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-icon">⚕</div>
+      <div>
+        <div class="logo-text">DiabetAI</div>
+        <div class="logo-sub">Clinical Intelligence</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <div class="nav-label">Main</div>
+      <div class="nav-item" onclick="showPage('overview', this)">
+        <svg
+          class="nav-icon"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <rect x="1" y="1" width="6" height="6" rx="1.5" />
+          <rect x="9" y="1" width="6" height="6" rx="1.5" />
+          <rect x="1" y="9" width="6" height="6" rx="1.5" />
+          <rect x="9" y="9" width="6" height="6" rx="1.5" />
+        </svg>
+        Overview
+      </div>
+      <div class="nav-item active" onclick="showPage('predict', this)">
+        <svg
+          class="nav-icon"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <circle cx="8" cy="8" r="6" />
+          <path d="M8 5v3l2 2" />
+        </svg>
+        Predict
+        <span
+          class="tag tag-blue"
+          style="margin-left: auto; font-size: 9px; padding: 2px 6px"
+          >AI</span
+        >
+      </div>
+      <div class="nav-item" onclick="showPage('analytics', this)">
+        <svg
+          class="nav-icon"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path d="M1 12l4-4 3 3 4-5 3 2" />
+        </svg>
+        Analytics
+      </div>
+      <div class="nav-item" onclick="showPage('patients', this)">
+        <svg
+          class="nav-icon"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <circle cx="6" cy="5" r="3" />
+          <path d="M1 14c0-3 2-5 5-5h0c3 0 5 2 5 5" />
+          <path d="M12 7l3 3m0-3l-3 3" />
+        </svg>
+        Patients
+      </div>
+      <div class="nav-item" onclick="showPage('model', this)">
+        <svg
+          class="nav-icon"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path d="M2 8h2l2-5 3 10 2-7 2 4 1-2" />
+        </svg>
+        Model Metrics
+      </div>
+      <div class="nav-label" style="margin-top: 8px">Config</div>
+      <div class="nav-item" onclick="showPage('settings', this)">
+        <svg
+          class="nav-icon"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <circle cx="8" cy="8" r="2.5" />
+          <path
+            d="M8 1v2M8 13v2M1 8h2m10 0h2M3.05 3.05l1.41 1.41m7.08 7.08 1.41 1.41M3.05 12.95l1.41-1.41m7.08-7.08 1.41-1.41"
+          />
+        </svg>
+        Settings
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="avatar">Dr</div>
+        <div>
+          <div class="user-name">khaled mohamed</div>
+          <div class="user-role">Endocrinologist</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-title" id="pageTitle">Predict Diabetes Risk</div>
+      <div class="search-box">
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="var(--text3)"
+          stroke-width="1.5"
+        >
+          <circle cx="7" cy="7" r="5" />
+          <path d="m11 11 3 3" />
+        </svg>
+        <input placeholder="Search patients..." />
+      </div>
+      <div class="topbar-actions">
+        <div class="icon-btn" style="position: relative">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <path d="M8 1a4 4 0 0 1 4 4c0 4 2 5 2 5H2s2-1 2-5a4 4 0 0 1 4-4z" />
+            <path d="M6.5 13.5a1.5 1.5 0 0 0 3 0" />
+          </svg>
+          <div class="badge">3</div>
+        </div>
+        <div
+          class="avatar"
+          style="width: 32px; height: 32px; font-size: 11px; cursor: pointer"
+        >
+          
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- OVERVIEW -->
+      <div class="page" id="page-overview">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Clinical Overview</div>
+            <div class="section-sub">
+              Real-time diabetes risk intelligence — May 2026
+            </div>
+          </div>
+          <div class="tag tag-green">● Live</div>
+        </div>
+        <div class="alert-banner">
+          ⚠ Educational model only — XGBoost trained on PIMA Indians dataset.
+          Not for clinical diagnosis.
+        </div>
+        <div class="grid-4">
+          <div class="stat-card blue">
+            <div class="stat-icon blue">📊</div>
+            <div class="stat-label">Total Predictions</div>
+            <div class="stat-value" id="c1">0</div>
+            <div class="stat-change up">↑ 12% this month</div>
+          </div>
+          <div class="stat-card red">
+            <div class="stat-icon red">⚠</div>
+            <div class="stat-label">High Risk Cases</div>
+            <div class="stat-value" id="c2">0</div>
+            <div class="stat-change" style="color: var(--accent4)">
+              ↑ 8% vs last week
+            </div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-icon green">✓</div>
+            <div class="stat-label">Model AUC-ROC</div>
+            <div class="stat-value">0.82</div>
+            <div class="stat-change up">XGBoost tuned</div>
+          </div>
+          <div class="stat-card purple">
+            <div class="stat-icon purple">👥</div>
+            <div class="stat-label">Dataset Size</div>
+            <div class="stat-value">768</div>
+            <div class="stat-change up">PIMA dataset</div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div
+              style="
+                font-family: var(--font2);
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--text);
+                margin-bottom: 16px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              Prediction Trend <span class="tag tag-blue">Last 7 days</span>
+            </div>
+            <div class="chart-container">
+              <canvas id="trendChart" role="img" aria-label="Prediction trend"
+                >Trend data.</canvas
+              >
+            </div>
+          </div>
+          <div class="card">
+            <div
+              style="
+                font-family: var(--font2);
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--text);
+                margin-bottom: 16px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              "
+            >
+              Risk Distribution <span class="tag tag-purple">All patients</span>
+            </div>
+            <div class="chart-container">
+              <canvas id="riskChart" role="img" aria-label="Risk distribution"
+                >42% high risk.</canvas
+              >
+            </div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div
+              style="
+                font-family: var(--font2);
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--text);
+                margin-bottom: 16px;
+              "
+            >
+              Age Distribution
+            </div>
+            <div class="chart-container short">
+              <canvas id="ageChart" role="img" aria-label="Age distribution"
+                >Age groups.</canvas
+              >
+            </div>
+          </div>
+          <div class="card">
+            <div
+              style="
+                font-family: var(--font2);
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--text);
+                margin-bottom: 4px;
+              "
+            >
+              Model Performance
+            </div>
+            <div
+              style="font-size: 11px; color: var(--text3); margin-bottom: 16px"
+            >
+              Key metrics — tuned XGBoost
+            </div>
+            <div class="feature-bar">
+              <div class="feature-name">Accuracy</div>
+              <div class="feature-track">
+                <div
+                  class="feature-fill"
+                  style="
+                    width: 74.03%;
+                    background: linear-gradient(90deg, #4f8ef7, #7c3aed);
+                  "
+                ></div>
+              </div>
+              <div class="feature-pct">74%</div>
+            </div>
+            <div class="feature-bar">
+              <div class="feature-name">AUC-ROC</div>
+              <div class="feature-track">
+                <div
+                  class="feature-fill"
+                  style="
+                    width: 82.11%;
+                    background: linear-gradient(90deg, #06d6a0, #4f8ef7);
+                  "
+                ></div>
+              </div>
+              <div class="feature-pct">82%</div>
+            </div>
+            <div class="feature-bar">
+              <div class="feature-name">Recall</div>
+              <div class="feature-track">
+                <div
+                  class="feature-fill"
+                  style="
+                    width: 77.78%;
+                    background: linear-gradient(90deg, #f59e0b, #ff6b6b);
+                  "
+                ></div>
+              </div>
+              <div class="feature-pct">78%</div>
+            </div>
+            <div class="feature-bar">
+              <div class="feature-name">Precision</div>
+              <div class="feature-track">
+                <div
+                  class="feature-fill"
+                  style="
+                    width: 60%;
+                    background: linear-gradient(90deg, #7c3aed, #4f8ef7);
+                  "
+                ></div>
+              </div>
+              <div class="feature-pct">60%</div>
+            </div>
+            <div class="feature-bar">
+              <div class="feature-name">F1 Score</div>
+              <div class="feature-track">
+                <div
+                  class="feature-fill"
+                  style="
+                    width: 67.74%;
+                    background: linear-gradient(90deg, #06d6a0, #7c3aed);
+                  "
+                ></div>
+              </div>
+              <div class="feature-pct">68%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PREDICT PAGE — the focus of this update -->
+      <div class="page active" id="page-predict">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Risk Prediction</div>
+            <div class="section-sub">
+              Sliders and fields are fully synced — changes update the live risk
+              estimate instantly
+            </div>
+          </div>
+          <div class="tag tag-purple">● XGBoost Model</div>
+        </div>
+
+        <!-- LIVE RISK PREVIEW BAR -->
+        <div class="risk-preview" id="riskPreview">
+          <div class="rp-header">
+            <div class="rp-title">
+              <div class="rp-live-dot"></div>
+              Live Risk Estimate
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 8px">
+              <div class="rp-pct" id="rpPct">35%</div>
+              <div id="rpTag" class="tag tag-amber" style="font-size: 11px">
+                MEDIUM
+              </div>
+            </div>
+          </div>
+          <div class="rp-bar-wrap">
+            <div
+              class="rp-bar-fill"
+              id="rpBarFill"
+              style="
+                width: 35%;
+                background: linear-gradient(90deg, #06d6a0, #f59e0b);
+              "
+            ></div>
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              font-size: 10px;
+              color: var(--text3);
+              margin-bottom: 10px;
+            "
+          >
+            <span>Low Risk</span><span>Medium Risk</span><span>High Risk</span>
+          </div>
+          <!-- Per-feature contribution bars -->
+          <div class="rp-factors">
+            <div class="rp-factor">
+              <div class="rp-factor-name">Glucose</div>
+              <div class="rp-factor-bar">
+                <div
+                  class="rp-factor-fill"
+                  id="rpf_glu"
+                  style="width: 35%"
+                ></div>
+              </div>
+              <div class="rp-factor-val" id="rpv_glu">120</div>
+            </div>
+            <div class="rp-factor">
+              <div class="rp-factor-name">BMI</div>
+              <div class="rp-factor-bar">
+                <div
+                  class="rp-factor-fill"
+                  id="rpf_bmi"
+                  style="width: 18%"
+                ></div>
+              </div>
+              <div class="rp-factor-val" id="rpv_bmi">30.0</div>
+            </div>
+            <div class="rp-factor">
+              <div class="rp-factor-name">Age</div>
+              <div class="rp-factor-bar">
+                <div
+                  class="rp-factor-fill"
+                  id="rpf_age"
+                  style="width: 12%"
+                ></div>
+              </div>
+              <div class="rp-factor-val" id="rpv_age">33</div>
+            </div>
+            <div class="rp-factor">
+              <div class="rp-factor-name">Pedigree</div>
+              <div class="rp-factor-bar">
+                <div
+                  class="rp-factor-fill"
+                  id="rpf_dpf"
+                  style="width: 8%"
+                ></div>
+              </div>
+              <div class="rp-factor-val" id="rpv_dpf">0.47</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="predict-layout">
+          <!-- LEFT: INPUT FORM -->
+          <div class="card">
+            <div
+              style="
+                font-family: var(--font2);
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--text);
+                margin-bottom: 16px;
+              "
+            >
+              Patient Data Input
+            </div>
+
+            <!-- PREGNANCIES -->
+            <div class="form-group">
+              <div class="form-label">
+                <div class="label-left">
+                  Pregnancies
+                  <div class="tooltip-icon" title="Number of times pregnant">
+                    ?
+                  </div>
+                </div>
+                <span style="font-size: 10px; color: var(--text3)">0 – 17</span>
+              </div>
+              <div class="field-row">
+                <div class="field-slider-col">
+                  <input
+                    type="range"
+                    min="0"
+                    max="17"
+                    step="1"
+                    value="3"
+                    id="sl_preg"
+                    oninput="onSlider('preg', this.value)"
+                  />
+                  <div class="field-mini-bar">
+                    <div
+                      class="field-mini-fill"
+                      id="mb_preg"
+                      style="width: 17.6%"
+                    ></div>
+                  </div>
+                </div>
+                <input
+                  class="num-input"
+                  type="number"
+                  id="i_preg"
+                  value="3"
+                  min="0"
+                  max="20"
+                  oninput="onNum('preg', this.value)"
+                />
+              </div>
+            </div>
+
+            <!-- GLUCOSE -->
+            <div class="form-group" style="margin-top: 10px">
+              <div class="form-label">
+                <div class="label-left">
+                  Glucose (mg/dL)
+                  <div
+                    class="tooltip-icon"
+                    title="Plasma glucose 2h after oral glucose tolerance test"
+                  >
+                    ?
+                  </div>
+                </div>
+                <span style="font-size: 10px; color: var(--text3)"
+                  >40 – 250</span
+                >
+              </div>
+              <div class="field-row">
+                <div class="field-slider-col">
+                  <input
+                    type="range"
+                    min="40"
+                    max="250"
+                    step="1"
+                    value="120"
+                    id="sl_glu"
+                    oninput="onSlider('glu', this.value)"
+                  />
+                  <div class="field-mini-bar">
+                    <div
+                      class="field-mini-fill"
+                      id="mb_glu"
+                      style="width: 38%"
+                    ></div>
+                  </div>
+                </div>
+                <input
+                  class="num-input"
+                  type="number"
+                  id="i_glu"
+                  value="120"
+                  min="40"
+                  max="250"
+                  oninput="onNum('glu', this.value)"
+                />
+              </div>
+            </div>
+
+            <!-- BLOOD PRESSURE -->
+            <div class="form-group" style="margin-top: 10px">
+              <div class="form-label">
+                <div class="label-left">
+                  Blood Pressure (mm Hg)
+                  <div class="tooltip-icon" title="Diastolic blood pressure">
+                    ?
+                  </div>
+                </div>
+                <span style="font-size: 10px; color: var(--text3)"
+                  >40 – 140</span
+                >
+              </div>
+              <div class="field-row">
+                <div class="field-slider-col">
+                  <input
+                    type="range"
+                    min="40"
+                    max="140"
+                    step="1"
+                    value="70"
+                    id="sl_bp"
+                    oninput="onSlider('bp', this.value)"
+                  />
+                  <div class="field-mini-bar">
+                    <div
+                      class="field-mini-fill"
+                      id="mb_bp"
+                      style="width: 30%"
+                    ></div>
+                  </div>
+                </div>
+                <input
+                  class="num-input"
+                  type="number"
+                  id="i_bp"
+                  value="70"
+                  min="40"
+                  max="140"
+                  oninput="onNum('bp', this.value)"
+                />
+              </div>
+            </div>
+
+            <!-- SKIN THICKNESS -->
+            <div class="form-group" style="margin-top: 10px">
+              <div class="form-label">
+                <div class="label-left">
+                  Skin Thickness (mm)
+                  <div class="tooltip-icon" title="Triceps skin fold thickness">
+                    ?
+                  </div>
+                </div>
+                <span style="font-size: 10px; color: var(--text3)">1 – 99</span>
+              </div>
+              <div class="field-row">
+                <div class="field-slider-col">
+                  <input
+                    type="range"
+                    min="1"
+                    max="99"
+                    step="1"
+                    value="20"
+                    id="sl_sk"
+                    oninput="onSlider('sk', this.value)"
+                  />
+                  <div class="field-mini-bar">
+                    <div
+                      class="field-mini-fill"
+                      id="mb_sk"
+                      style="width: 19%"
+                    ></div>
+                  </div>
+                </div>
+                <input
+                  class="num-input"
+                  type="number"
+                  id="i_sk"
+                  value="20"
+                  min="1"
+                  max="99"
+                  oninput="onNum('sk', this.value)"
+                />
+              </div>
+            </div>
+
+            <!-- INSULIN -->
+            <div class="form-group" style="margin-top: 10px">
+              <div class="form-label">
+                <div class="label-left">
+                  Insulin (μU/mL)
+                  <div class="tooltip-icon" title="2-Hour serum insulin">?</div>
+                </div>
+                <span style="font-size: 10px; color: var(--text3)"
+                  >1 – 846</span
+                >
+              </div>
+              <div class="field-row">
+                <div class="field-slider-col">
+                  <input
+                    type="range"
+                    min="1"
+                    max="846"
+                    step="1"
+                    value="80"
+                    id="sl_ins"
+                    oninput="onSlider('ins', this.value)"
+                  />
+                  <div class="field-mini-bar">
+                    <div
+                      class="field-mini-fill"
+                      id="mb_ins"
+                      style="width: 9%"
+                    ></div>
+                  </div>
+                </div>
+                <input
+                  class="num-input"
+                  type="number"
+                  id="i_ins"
+                  value="80"
+                  min="1"
+                  max="846"
+                  oninput="onNum('ins', this.value)"
+                />
+              </div>
+            </div>
+
+            <!-- BMI -->
+            <div class="form-group" style="margin-top: 10px">
+              <div class="form-label">
+                <div class="label-left">
+                  BMI
+                  <div class="tooltip-icon" title="Body mass index (kg/m²)">
+                    ?
+                  </div>
+                </div>
+                <span style="font-size: 10px; color: var(--text3)"
+                  >10 – 70</span
+                >
+              </div>
+              <div class="field-row">
+                <div class="field-slider-col">
+                  <input
+                    type="range"
+                    min="10"
+                    max="70"
+                    step="0.5"
+                    value="30"
+                    id="sl_bmi"
+                    oninput="onSlider('bmi', this.value)"
+                  />
+                  <div class="field-mini-bar">
+                    <div
+                      class="field-mini-fill"
+                      id="mb_bmi"
+                      style="width: 33%"
+                    ></div>
+                  </div>
+                </div>
+                <input
+                  class="num-input"
+                  type="number"
+                  id="i_bmi"
+                  value="30"
+                  min="10"
+                  max="70"
+                  step="0.5"
+                  oninput="onNum('bmi', this.value)"
+                />
+              </div>
+            </div>
+
+            <!-- PEDIGREE -->
+            <div class="form-group" style="margin-top: 10px">
+              <div class="form-label">
+                <div class="label-left">
+                  Diabetes Pedigree Function
+                  <div
+                    class="tooltip-icon"
+                    title="Genetic/family risk score (0–2.42)"
+                  >
+                    ?
+                  </div>
+                </div>
+                <span style="font-size: 10px; color: var(--text3)"
+                  >0 – 2.42</span
+                >
+              </div>
+              <div class="field-row">
+                <div class="field-slider-col">
+                  <input
+                    type="range"
+                    min="0"
+                    max="2.42"
+                    step="0.01"
+                    value="0.47"
+                    id="sl_dpf"
+                    oninput="onSlider('dpf', this.value)"
+                  />
+                  <div class="field-mini-bar">
+                    <div
+                      class="field-mini-fill"
+                      id="mb_dpf"
+                      style="width: 19%"
+                    ></div>
+                  </div>
+                </div>
+                <input
+                  class="num-input"
+                  type="number"
+                  id="i_dpf"
+                  value="0.47"
+                  min="0"
+                  max="2.42"
+                  step="0.01"
+                  oninput="onNum('dpf', this.value)"
+                />
+              </div>
+            </div>
+
+            <!-- AGE -->
+            <div class="form-group" style="margin-top: 10px">
+              <div class="form-label">
+                <div class="label-left">
+                  Age (years)
+                  <div class="tooltip-icon" title="Patient age">?</div>
+                </div>
+                <span style="font-size: 10px; color: var(--text3)"
+                  >18 – 100</span
+                >
+              </div>
+              <div class="field-row">
+                <div class="field-slider-col">
+                  <input
+                    type="range"
+                    min="18"
+                    max="100"
+                    step="1"
+                    value="33"
+                    id="sl_age"
+                    oninput="onSlider('age', this.value)"
+                  />
+                  <div class="field-mini-bar">
+                    <div
+                      class="field-mini-fill"
+                      id="mb_age"
+                      style="width: 18%"
+                    ></div>
+                  </div>
+                </div>
+                <input
+                  class="num-input"
+                  type="number"
+                  id="i_age"
+                  value="33"
+                  min="18"
+                  max="100"
+                  oninput="onNum('age', this.value)"
+                />
+              </div>
+            </div>
+
+            <div style="margin-top: 18px; display: flex; gap: 10px">
+              <button
+                class="btn btn-primary"
+                onclick="runPrediction()"
+                style="flex: 2; justify-content: center; padding: 13px"
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
+                  <circle cx="8" cy="8" r="6" />
+                  <path
+                    d="M6 5.5l4 2.5-4 2.5V5.5z"
+                    fill="currentColor"
+                    stroke="none"
+                  />
+                </svg>
+                Analyze Patient Risk
+              </button>
+              <button class="btn btn-outline" onclick="resetForm()">
+                Reset
+              </button>
+            </div>
+          </div>
+
+          <!-- RIGHT: RESULT -->
+          <div>
+            <div class="result-card" id="resultCard">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  margin-bottom: 18px;
+                "
+              >
+                <div
+                  style="
+                    font-family: var(--font2);
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: var(--text);
+                  "
+                >
+                  Prediction Result
+                </div>
+                <div class="tag" id="riskTag">—</div>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  gap: 20px;
+                  align-items: center;
+                  margin-bottom: 16px;
+                "
+              >
+                <div style="flex: 1">
+                  <div class="risk-gauge">
+                    <svg class="gauge-svg" viewBox="0 0 160 80">
+                      <path
+                        d="M 20 80 A 60 60 0 0 1 140 80"
+                        stroke="#2a3558"
+                        stroke-width="10"
+                        fill="none"
+                        stroke-linecap="round"
+                      />
+                      <path
+                        d="M 20 80 A 60 60 0 0 1 140 80"
+                        stroke="url(#gGrad)"
+                        stroke-width="10"
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-dasharray="188.5"
+                        stroke-dashoffset="188.5"
+                        id="gaugeArc"
+                      />
+                      <defs>
+                        <linearGradient id="gGrad" x1="0" y1="0" x2="1" y2="0">
+                          <stop offset="0%" stop-color="#06d6a0" />
+                          <stop offset="50%" stop-color="#f59e0b" />
+                          <stop offset="100%" stop-color="#ff6b6b" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+                  <div class="risk-pct-big" id="riskPct">—%</div>
+                  <div class="risk-label-sm">Diabetes Probability</div>
+                </div>
+                <div style="flex: 1">
+                  <div
+                    style="
+                      font-size: 11px;
+                      color: var(--text3);
+                      margin-bottom: 4px;
+                    "
+                  >
+                    Prediction
+                  </div>
+                  <div
+                    style="
+                      font-family: var(--font2);
+                      font-size: 15px;
+                      font-weight: 700;
+                      color: var(--text);
+                      margin-bottom: 12px;
+                    "
+                    id="predLabel"
+                  >
+                    —
+                  </div>
+                  <div
+                    style="
+                      font-size: 11px;
+                      color: var(--text3);
+                      margin-bottom: 4px;
+                    "
+                  >
+                    Confidence
+                  </div>
+                  <div
+                    style="
+                      font-family: var(--font2);
+                      font-size: 18px;
+                      font-weight: 700;
+                    "
+                    id="confVal"
+                  >
+                    —
+                  </div>
+                  <div
+                    style="
+                      height: 6px;
+                      border-radius: 3px;
+                      background: var(--border);
+                      overflow: hidden;
+                      margin-top: 6px;
+                    "
+                  >
+                    <div
+                      id="confBar"
+                      style="
+                        height: 100%;
+                        border-radius: 3px;
+                        width: 0%;
+                        background: linear-gradient(
+                          90deg,
+                          var(--accent),
+                          var(--accent2)
+                        );
+                        transition: width 0.8s ease;
+                      "
+                    ></div>
+                  </div>
+                </div>
+              </div>
+              <div class="divider"></div>
+              <div
+                style="
+                  font-size: 12px;
+                  font-weight: 500;
+                  color: var(--text);
+                  margin-bottom: 8px;
+                "
+              >
+                AI Clinical Insights
+              </div>
+              <div id="insightsContainer"></div>
+              <div class="divider"></div>
+              <div
+                style="
+                  font-size: 11px;
+                  color: var(--text3);
+                  line-height: 1.5;
+                  display: flex;
+                  gap: 6px;
+                "
+              >
+                <span>⚕</span
+                ><span
+                  >Educational model only. Results must be reviewed by a
+                  qualified clinician before any medical decision.</span
+                >
+              </div>
+            </div>
+            <div class="card" id="emptyState">
+              <div style="text-align: center; padding: 40px 20px">
+                <div style="font-size: 40px; margin-bottom: 16px; opacity: 0.3">
+                  ⚕
+                </div>
+                <div
+                  style="
+                    font-family: var(--font2);
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: var(--text);
+                    margin-bottom: 8px;
+                  "
+                >
+                  Ready for Analysis
+                </div>
+                <div
+                  style="font-size: 12px; color: var(--text3); line-height: 1.6"
+                >
+                  Adjust sliders or type values on the left.<br />The live bar
+                  updates instantly. Hit<br /><strong
+                    style="color: var(--text2)"
+                    >Analyze Patient Risk</strong
+                  >
+                  for the full result.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ANALYTICS -->
+      <div class="page" id="page-analytics">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Dataset Analytics</div>
+            <div class="section-sub">
+              PIMA Indians Diabetes Dataset — 768 records
+            </div>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-bottom: 0">
+          <div class="card" style="margin-bottom: 16px">
+            <div
+              style="
+                font-family: var(--font2);
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--text);
+                margin-bottom: 16px;
+              "
+            >
+              Class Distribution
+            </div>
+            <div class="chart-container">
+              <canvas id="classChart" role="img" aria-label="Class distribution"
+                >268 diabetic.</canvas
+              >
+            </div>
+          </div>
+          <div class="card" style="margin-bottom: 16px">
+            <div
+              style="
+                font-family: var(--font2);
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--text);
+                margin-bottom: 16px;
+              "
+            >
+              Feature Importance
+            </div>
+            <div class="chart-container">
+              <canvas
+                id="importanceChart"
+                role="img"
+                aria-label="Feature importance"
+                >Glucose highest.</canvas
+              >
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div
+            style="
+              font-family: var(--font2);
+              font-size: 14px;
+              font-weight: 600;
+              color: var(--text);
+              margin-bottom: 4px;
+            "
+          >
+            Glucose vs BMI Risk Scatter
+          </div>
+          <div
+            style="font-size: 11px; color: var(--text3); margin-bottom: 16px"
+          >
+            Risk stratification by two key features
+          </div>
+          <div class="chart-container tall">
+            <canvas
+              id="scatterChart"
+              role="img"
+              aria-label="Glucose vs BMI scatter"
+              >Risk clusters visible.</canvas
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- PATIENTS -->
+      <div class="page" id="page-patients">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Patient Registry</div>
+            <div class="section-sub">Recent predictions and outcomes</div>
+          </div>
+          <button class="btn btn-primary" onclick="showPage('predict', null)">
+            + New Prediction
+          </button>
+        </div>
+        <div class="card">
+          <div style="display: flex; gap: 10px; margin-bottom: 16px">
+            <input
+              class="form-input"
+              style="width: 220px"
+              placeholder="Search patient..."
+              oninput="filterTable(this.value)"
+            />
+            <select
+              class="form-input"
+              style="width: 140px"
+              onchange="filterByRisk(this.value)"
+            >
+              <option value="">All Levels</option>
+              <option value="High">High Risk</option>
+              <option value="Medium">Medium Risk</option>
+              <option value="Low">Low Risk</option>
+            </select>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Patient</th>
+                  <th>Age</th>
+                  <th>Glucose</th>
+                  <th>BMI</th>
+                  <th>Risk Score</th>
+                  <th>Level</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="patientBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODEL -->
+      <div class="page" id="page-model">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Model Performance</div>
+            <div class="section-sub">
+              Experiment comparison — XGBoost variants
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom: 16px">
+          <div
+            style="
+              font-family: var(--font2);
+              font-size: 14px;
+              font-weight: 600;
+              color: var(--text);
+              margin-bottom: 16px;
+            "
+          >
+            Experiment Results
+          </div>
+          <div id="modelChips"></div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div
+              style="
+                font-family: var(--font2);
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--text);
+                margin-bottom: 16px;
+              "
+            >
+              Model Comparison (AUC-ROC)
+            </div>
+            <div class="chart-container">
+              <canvas
+                id="modelCompChart"
+                role="img"
+                aria-label="Model AUC comparison"
+                >SMOTE highest.</canvas
+              >
+            </div>
+          </div>
+          <div class="card">
+            <div
+              style="
+                font-family: var(--font2);
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--text);
+                margin-bottom: 16px;
+              "
+            >
+              Confusion Matrix — Tuned XGBoost
+            </div>
+            <div id="confMatrix"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="page" id="page-settings">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Settings</div>
+            <div class="section-sub">Platform configuration</div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <div
+              style="
+                font-family: var(--font2);
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--text);
+                margin-bottom: 16px;
+              "
+            >
+              API Configuration
+            </div>
+            <div style="margin-bottom: 14px">
+              <label
+                style="
+                  font-size: 12px;
+                  color: var(--text2);
+                  display: block;
+                  margin-bottom: 6px;
+                "
+                >Backend URL</label
+              ><input
+                class="form-input"
+                value="http://localhost:8000"
+                id="apiUrl"
+              />
+            </div>
+            <div style="display: flex; gap: 10px">
+              <button class="btn btn-primary" onclick="saveSettings()">
+                Save
+              </button>
+              <button class="btn btn-outline" onclick="testApi()">
+                Test Connection
+              </button>
+            </div>
+            <div
+              style="
+                margin-top: 12px;
+                font-size: 12px;
+                background: var(--bg3);
+                border-radius: 8px;
+                padding: 10px;
+                font-family: monospace;
+                color: var(--text3);
+                white-space: pre-wrap;
+              "
+              id="apiStatus"
+            >
+              Status: waiting for test...
+            </div>
+          </div>
+          <div class="card">
+            <div
+              style="
+                font-family: var(--font2);
+                font-size: 14px;
+                font-weight: 600;
+                color: var(--text);
+                margin-bottom: 16px;
+              "
+            >
+              Profile
+            </div>
+            <div style="margin-bottom: 14px">
+              <label
+                style="
+                  font-size: 12px;
+                  color: var(--text2);
+                  display: block;
+                  margin-bottom: 6px;
+                "
+                >Full Name</label
+              ><input class="form-input" value="Khaled mohamed" />
+            </div>
+            <div style="margin-bottom: 14px">
+              <label
+                style="
+                  font-size: 12px;
+                  color: var(--text2);
+                  display: block;
+                  margin-bottom: 6px;
+                "
+                >Specialty</label
+              ><input class="form-input" value="Endocrinology" />
+            </div>
+            <div style="margin-bottom: 16px">
+              <label
+                style="
+                  font-size: 12px;
+                  color: var(--text2);
+                  display: block;
+                  margin-bottom: 6px;
+                "
+                >Institution</label
+              ><input
+                class="form-input"
+                value="Arab Academy for Science, Technology and Maritime Transport "
+              />
+            </div>
+            <button class="btn btn-primary">Update Profile</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+  // =============================================
+  //  FIELD CONFIG — single source of truth
+  // =============================================
+  const FIELDS = {
+    preg: {
+      min: 0,
+      max: 17,
+      def: 3,
+      fmt: (v) => Math.round(v),
+      weight: 0.08,
+      norm: (v) => (v - 0) / (17 - 0),
+    },
+    glu: {
+      min: 40,
+      max: 250,
+      def: 120,
+      fmt: (v) => Math.round(v),
+      weight: 0.35,
+      norm: (v) => (v - 40) / (250 - 40),
+    },
+    bp: {
+      min: 40,
+      max: 140,
+      def: 70,
+      fmt: (v) => Math.round(v),
+      weight: 0.04,
+      norm: (v) => (v - 40) / (140 - 40),
+    },
+    sk: {
+      min: 1,
+      max: 99,
+      def: 20,
+      fmt: (v) => Math.round(v),
+      weight: 0.03,
+      norm: (v) => (v - 1) / (99 - 1),
+    },
+    ins: {
+      min: 1,
+      max: 846,
+      def: 80,
+      fmt: (v) => Math.round(v),
+      weight: 0.07,
+      norm: (v) => (v - 1) / (846 - 1),
+    },
+    bmi: {
+      min: 10,
+      max: 70,
+      def: 30,
+      fmt: (v) => parseFloat(v).toFixed(1),
+      weight: 0.18,
+      norm: (v) => (v - 10) / (70 - 10),
+    },
+    dpf: {
+      min: 0,
+      max: 2.42,
+      def: 0.47,
+      fmt: (v) => parseFloat(v).toFixed(2),
+      weight: 0.08,
+      norm: (v) => v / 2.42,
+    },
+    age: {
+      min: 18,
+      max: 100,
+      def: 33,
+      fmt: (v) => Math.round(v),
+      weight: 0.12,
+      norm: (v) => (v - 18) / (100 - 18),
+    },
+  };
+
+  // Get/set helpers
+  function getVal(key) {
+    return (
+      parseFloat(document.getElementById("i_" + key).value) || FIELDS[key].def
+    );
+  }
+
+  // Color by value relative to risk thresholds per field
+  function fieldColor(key, val) {
+    const riskyVals = {
+      glu: 140,
+      bmi: 30,
+      age: 45,
+      dpf: 0.5,
+      preg: 6,
+      ins: 200,
+    };
+    const warnVals = {
+      glu: 100,
+      bmi: 25,
+      age: 35,
+      dpf: 0.3,
+      preg: 3,
+      ins: 120,
+    };
+    if (riskyVals[key] !== undefined && val >= riskyVals[key]) return "#ff8888";
+    if (warnVals[key] !== undefined && val >= warnVals[key]) return "#f59e0b";
+    return "#06d6a0";
+  }
+
+  function miniBarColor(key, norm) {
+    if (norm > 0.7) return "#ff6b6b";
+    if (norm > 0.45) return "#f59e0b";
+    return "#4f8ef7";
+  }
+
+  // =============================================
+  //  CORE BINDING FUNCTION — called on every change
+  // =============================================
+  function syncAll(key, rawVal) {
+    const f = FIELDS[key];
+    const val = Math.max(f.min, Math.min(f.max, parseFloat(rawVal) || f.def));
+    const norm = f.norm(val);
+
+    // 1. Keep slider and number input in sync
+    document.getElementById("sl_" + key).value = val;
+    document.getElementById("i_" + key).value = f.fmt(val);
+
+    // 2. Color the number input based on health risk
+    const ni = document.getElementById("i_" + key);
+    const col = fieldColor(key, val);
+    ni.style.borderColor =
+      col === "#ff8888"
+        ? "rgba(255,107,107,.5)"
+        : col === "#f59e0b"
+          ? "rgba(245,158,11,.4)"
+          : "rgba(6,214,160,.3)";
+    ni.style.color = col;
+
+    // 3. Update the mini progress bar under the slider
+    const mb = document.getElementById("mb_" + key);
+    if (mb) {
+      mb.style.width = (norm * 100).toFixed(1) + "%";
+      mb.style.background = miniBarColor(key, norm);
+    }
+
+    // 4. Recompute live risk and update the preview panel
+    updateLiveRisk();
+  }
+
+  function onSlider(key, val) {
+    syncAll(key, val);
+  }
+  function onNum(key, val) {
+    syncAll(key, val);
+  }
+
+  // =============================================
+  //  LIVE RISK ESTIMATE
+  // =============================================
+  function simulateModel(d) {
+    let s = 0;
+    s += ((d.glu - 117) / 200) * 0.35;
+    s += ((d.bmi - 32.4) / 100) * 0.18;
+    s += ((d.age - 29) / 150) * 0.12;
+    s += (d.dpf - 0.38) * 0.2;
+    s += ((d.preg - 3) / 30) * 0.08;
+    s += ((d.ins - 125) / 2000) * 0.07;
+    return Math.max(0.05, Math.min(0.95, 0.35 + s));
+  }
+
+  function getRiskColor(prob) {
+    if (prob >= 0.6) return "#ff6b6b";
+    if (prob >= 0.35) return "#f59e0b";
+    return "#06d6a0";
+  }
+
+  function updateLiveRisk() {
+    const d = {
+      preg: getVal("preg"),
+      glu: getVal("glu"),
+      bp: getVal("bp"),
+      sk: getVal("sk"),
+      ins: getVal("ins"),
+      bmi: getVal("bmi"),
+      dpf: getVal("dpf"),
+      age: getVal("age"),
+    };
+    const prob = simulateModel(d);
+    const pct = Math.round(prob * 100);
+    const col = getRiskColor(prob);
+
+    // Main % number
+    const rpPct = document.getElementById("rpPct");
+    rpPct.textContent = pct + "%";
+    rpPct.style.color = col;
+
+    // Big bar
+    const barFill = document.getElementById("rpBarFill");
+    barFill.style.width = pct + "%";
+    if (prob >= 0.6)
+      barFill.style.background = "linear-gradient(90deg,#f59e0b,#ff6b6b)";
+    else if (prob >= 0.35)
+      barFill.style.background = "linear-gradient(90deg,#06d6a0,#f59e0b)";
+    else barFill.style.background = "linear-gradient(90deg,#06d6a0,#4f8ef7)";
+
+    // Risk tag
+    const tag = document.getElementById("rpTag");
+    if (prob >= 0.6) {
+      tag.className = "tag tag-red";
+      tag.textContent = "HIGH";
+    } else if (prob >= 0.35) {
+      tag.className = "tag tag-amber";
+      tag.textContent = "MEDIUM";
+    } else {
+      tag.className = "tag tag-green";
+      tag.textContent = "LOW";
+    }
+
+    // Preview card border
+    const preview = document.getElementById("riskPreview");
+    preview.className =
+      "risk-preview " + (prob >= 0.6 ? "high" : prob >= 0.35 ? "med" : "low");
+
+    // Per-feature factor bars
+    const factors = [
+      { key: "glu", id: "glu", val: d.glu, max: 250, min: 40 },
+      { key: "bmi", id: "bmi", val: d.bmi, max: 70, min: 10 },
+      { key: "age", id: "age", val: d.age, max: 100, min: 18 },
+      { key: "dpf", id: "dpf", val: d.dpf, max: 2.42, min: 0 },
+    ];
+    factors.forEach((f) => {
+      const norm = Math.max(0, Math.min(1, (f.val - f.min) / (f.max - f.min)));
+      const fc = document.getElementById("rpf_" + f.id);
+      const fv = document.getElementById("rpv_" + f.id);
+      if (fc) {
+        fc.style.width = (norm * 100).toFixed(1) + "%";
+        fc.style.background =
+          fieldColor(f.key, f.val) === "#ff8888"
+            ? "#ff6b6b"
+            : fieldColor(f.key, f.val) === "#f59e0b"
+              ? "#f59e0b"
+              : "#4f8ef7";
+      }
+      if (fv) {
+        fv.style.color = fieldColor(f.key, f.val);
+        fv.textContent = FIELDS[f.key].fmt(f.val);
+      }
+    });
+  }
+
+  // =============================================
+  //  NAVIGATION
+  // =============================================
+  function showPage(name, el) {
+    document
+      .querySelectorAll(".page")
+      .forEach((p) => p.classList.remove("active"));
+    document
+      .querySelectorAll(".nav-item")
+      .forEach((n) => n.classList.remove("active"));
+    document.getElementById("page-" + name).classList.add("active");
+    if (el) el.classList.add("active");
+    const titles = {
+      overview: "Overview",
+      predict: "Predict Diabetes Risk",
+      analytics: "Dataset Analytics",
+      patients: "Patient Registry",
+      model: "Model Performance",
+      settings: "Settings",
+    };
+    document.getElementById("pageTitle").textContent = titles[name] || name;
+  }
+
+  // =============================================
+  //  FINAL PREDICTION (button)
+  // =============================================
+  async function runPrediction() {
+    const data = {
+      Pregnancies: getVal("preg"),
+      Glucose: getVal("glu"),
+      BloodPressure: getVal("bp"),
+      SkinThickness: getVal("sk"),
+      Insulin: getVal("ins"),
+      BMI: getVal("bmi"),
+      DiabetesPedigreeFunction: getVal("dpf"),
+      Age: getVal("age"),
+    };
+    document.getElementById("loadOverlay").classList.add("show");
+    document.getElementById("resultCard").classList.remove("show");
+    document.getElementById("emptyState").style.display = "block";
+
+    let prob, prediction, confidence, riskLabel;
+    try {
+      const url = (
+        document.getElementById("apiUrl") || { value: "http://localhost:8000" }
+      ).value;
+      const res = await fetch(url + "/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error();
+      const r = await res.json();
+      prob = r.diabetes_probability;
+      prediction = r.prediction;
+      confidence = r.confidence;
+      riskLabel = r.risk_label;
+    } catch (e) {
+      const d2 = {
+        glu: data.Glucose,
+        bmi: data.BMI,
+        age: data.Age,
+        dpf: data.DiabetesPedigreeFunction,
+        preg: data.Pregnancies,
+        ins: data.Insulin,
+      };
+      prob = simulateModel(d2);
+      prediction = prob >= 0.5 ? 1 : 0;
+      confidence = prediction === 1 ? prob : 1 - prob;
+      riskLabel = prediction === 1 ? "High diabetes risk" : "Low diabetes risk";
+    }
+    setTimeout(() => {
+      document.getElementById("loadOverlay").classList.remove("show");
+      document.getElementById("emptyState").style.display = "none";
+      showResult(data, prob, prediction, confidence, riskLabel);
+      addPatientRecord(data, prob);
+    }, 1100);
+  }
+
+  function showResult(data, prob, prediction, confidence, riskLabel) {
+    const pct = Math.round(prob * 100);
+    const col = getRiskColor(prob);
+    document.getElementById("riskPct").textContent = pct + "%";
+    document.getElementById("riskPct").style.color = col;
+    document.getElementById("predLabel").textContent = riskLabel;
+    document.getElementById("predLabel").style.color =
+      prediction === 1 ? "#ff8888" : "#06d6a0";
+    document.getElementById("confVal").textContent =
+      (confidence * 100).toFixed(1) + "%";
+    document.getElementById("confBar").style.width = confidence * 100 + "%";
+    const tag = document.getElementById("riskTag");
+    if (pct >= 60) {
+      tag.className = "tag tag-red";
+      tag.textContent = "HIGH RISK";
+    } else if (pct >= 35) {
+      tag.className = "tag tag-amber";
+      tag.textContent = "MEDIUM RISK";
+    } else {
+      tag.className = "tag tag-green";
+      tag.textContent = "LOW RISK";
+    }
+    const arc = document.getElementById("gaugeArc");
+    arc.style.transition = "stroke-dashoffset 1s ease";
+    arc.style.strokeDashoffset = 188.5 - (188.5 * Math.min(pct, 100)) / 100;
+
+    const insights = [];
+    const glu = data.Glucose,
+      bmi = data.BMI,
+      age = data.Age,
+      dpf = data.DiabetesPedigreeFunction;
+    if (glu > 140)
+      insights.push({
+        type: "warn",
+        title: "High Glucose",
+        text: `Glucose at ${glu} mg/dL is well above normal (70–140 mg/dL). Strong diabetes indicator.`,
+      });
+    else if (glu > 100)
+      insights.push({
+        type: "info",
+        title: "Elevated Glucose",
+        text: `Glucose at ${glu} mg/dL is in the pre-diabetic range.`,
+      });
+    else
+      insights.push({
+        type: "ok",
+        title: "Glucose Normal",
+        text: `Glucose at ${glu} mg/dL is within healthy limits.`,
+      });
+    if (bmi > 30)
+      insights.push({
+        type: "warn",
+        title: "Obese BMI",
+        text: `BMI ${parseFloat(bmi).toFixed(1)} is in the obese range, strongly linked to insulin resistance.`,
+      });
+    else if (bmi > 25)
+      insights.push({
+        type: "info",
+        title: "Overweight",
+        text: `BMI ${parseFloat(bmi).toFixed(1)} indicates overweight. Weight reduction may lower risk.`,
+      });
+    if (dpf > 0.5)
+      insights.push({
+        type: "warn",
+        title: "Family History Risk",
+        text: `Pedigree score ${parseFloat(dpf).toFixed(2)} indicates notable genetic predisposition.`,
+      });
+    if (prob > 0.7)
+      insights.push({
+        type: "warn",
+        title: "Clinical Recommendation",
+        text: "Recommend HbA1c test, fasting glucose recheck, and endocrinology referral.",
+      });
+    else if (prob < 0.3)
+      insights.push({
+        type: "ok",
+        title: "Preventive Guidance",
+        text: "Maintain healthy lifestyle. Annual screening recommended.",
+      });
+
+    const c = document.getElementById("insightsContainer");
+    c.innerHTML = insights
+      .slice(0, 3)
+      .map(
+        (i) =>
+          `<div class="insight-card ${i.type}"><div class="insight-title">${i.title}</div><div class="insight-text">${i.text}</div></div>`,
+      )
+      .join("");
+    document.getElementById("resultCard").classList.add("show");
+  }
+
+  function resetForm() {
+    Object.keys(FIELDS).forEach((k) => syncAll(k, FIELDS[k].def));
+    document.getElementById("resultCard").classList.remove("show");
+    document.getElementById("emptyState").style.display = "block";
+  }
+
+  // =============================================
+  //  PATIENTS TABLE
+  // =============================================
+  const patients = [
+    {
+      name: "Fatima Al-Rashid",
+      age: 45,
+      glucose: 168,
+      bmi: 34.2,
+      risk: 0.82,
+      level: "High",
+      date: "2026-05-03",
+    },
+    {
+      name: "Sarah Johnson",
+      age: 28,
+      glucose: 89,
+      bmi: 22.1,
+      risk: 0.18,
+      level: "Low",
+      date: "2026-05-03",
+    },
+    {
+      name: "Nour Hassan",
+      age: 52,
+      glucose: 145,
+      bmi: 31.5,
+      risk: 0.71,
+      level: "High",
+      date: "2026-05-02",
+    },
+    {
+      name: "Maria Garcia",
+      age: 33,
+      glucose: 112,
+      bmi: 27.8,
+      risk: 0.41,
+      level: "Medium",
+      date: "2026-05-02",
+    },
+    {
+      name: "Aisha Mohamed",
+      age: 61,
+      glucose: 192,
+      bmi: 38.9,
+      risk: 0.91,
+      level: "High",
+      date: "2026-05-01",
+    },
+    {
+      name: "Linda Chen",
+      age: 38,
+      glucose: 78,
+      bmi: 21.3,
+      risk: 0.12,
+      level: "Low",
+      date: "2026-05-01",
+    },
+    {
+      name: "Hana Yilmaz",
+      age: 42,
+      glucose: 131,
+      bmi: 29.6,
+      risk: 0.58,
+      level: "Medium",
+      date: "2026-04-30",
+    },
+  ];
+  function addPatientRecord(data, prob) {
+    const level = prob >= 0.6 ? "High" : prob >= 0.35 ? "Medium" : "Low";
+    patients.unshift({
+      name: "New Patient",
+      age: data.Age,
+      glucose: data.Glucose,
+      bmi: data.BMI,
+      risk: prob,
+      level,
+      date: new Date().toISOString().slice(0, 10),
+    });
+  }
+  function renderTable(list) {
+    document.getElementById("patientBody").innerHTML = list
+      .map((p) => {
+        const pc =
+          p.level === "High"
+            ? "pill-high"
+            : p.level === "Medium"
+              ? "pill-med"
+              : "pill-low";
+        const dc =
+          p.level === "High"
+            ? "dot-red"
+            : p.level === "Medium"
+              ? "dot-amber"
+              : "dot-green";
+        return `<tr><td><span class="status-dot ${dc}"></span>${p.name}</td><td>${p.age}</td><td style="color:${p.glucose > 140 ? "#ff8888" : p.glucose > 100 ? "#f59e0b" : "var(--text2)"}">${p.glucose}</td><td>${p.bmi.toFixed(1)}</td><td>${(p.risk * 100).toFixed(0)}%</td><td><span class="pill ${pc}">${p.level}</span></td><td style="color:var(--text3)">${p.date}</td></tr>`;
+      })
+      .join("");
+  }
+  function filterTable(q) {
+    renderTable(
+      patients.filter((p) => p.name.toLowerCase().includes(q.toLowerCase())),
+    );
+  }
+  function filterByRisk(l) {
+    renderTable(l ? patients.filter((p) => p.level === l) : patients);
+  }
+
+  function renderModelChips() {
+    const exp = [
+      {
+        name: "Tuned Weighted XGBoost",
+        acc: 0.7403,
+        auc: 0.8211,
+        f1: 0.6774,
+        best: true,
+      },
+      {
+        name: "SMOTE XGBoost",
+        acc: 0.7338,
+        auc: 0.8291,
+        f1: 0.672,
+        best: false,
+      },
+      {
+        name: "Weighted XGBoost",
+        acc: 0.7468,
+        auc: 0.8207,
+        f1: 0.6667,
+        best: false,
+      },
+      {
+        name: "Baseline XGBoost",
+        acc: 0.7792,
+        auc: 0.823,
+        f1: 0.6731,
+        best: false,
+      },
+    ];
+    document.getElementById("modelChips").innerHTML = exp
+      .map(
+        (e) =>
+          `<div class="model-chip ${e.best ? "best" : ""}"><div class="model-name">${e.name}${e.best ? ' <span class="tag tag-blue" style="font-size:9px;padding:2px 6px;margin-left:6px">Selected</span>' : ""}</div><div class="model-metrics"><div class="model-metric">Accuracy: <span>${(e.acc * 100).toFixed(1)}%</span></div><div class="model-metric">AUC-ROC: <span>${e.auc.toFixed(3)}</span></div><div class="model-metric">F1: <span>${e.f1.toFixed(3)}</span></div></div></div>`,
+      )
+      .join("");
+  }
+  function renderConfusionMatrix() {
+    document.getElementById("confMatrix").innerHTML =
+      `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:280px;margin:0 auto;text-align:center"><div style="background:rgba(6,214,160,.12);border:1px solid rgba(6,214,160,.2);border-radius:10px;padding:20px"><div style="font-size:28px;font-weight:700;color:#06d6a0;font-family:var(--font2)">72</div><div style="font-size:11px;color:var(--text3);margin-top:4px">True Negatives</div></div><div style="background:rgba(255,107,107,.12);border:1px solid rgba(255,107,107,.2);border-radius:10px;padding:20px"><div style="font-size:28px;font-weight:700;color:#ff8888;font-family:var(--font2)">28</div><div style="font-size:11px;color:var(--text3);margin-top:4px">False Positives</div></div><div style="background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.2);border-radius:10px;padding:20px"><div style="font-size:28px;font-weight:700;color:#f59e0b;font-family:var(--font2)">12</div><div style="font-size:11px;color:var(--text3);margin-top:4px">False Negatives</div></div><div style="background:rgba(79,142,247,.12);border:1px solid rgba(79,142,247,.2);border-radius:10px;padding:20px"><div style="font-size:28px;font-weight:700;color:#7eb8f7;font-family:var(--font2)">42</div><div style="font-size:11px;color:var(--text3);margin-top:4px">True Positives</div></div></div>`;
+  }
+  function testApi() {
+    const url = document.getElementById("apiUrl").value;
+    document.getElementById("apiStatus").textContent = "Testing " + url + "...";
+    fetch(url + "/")
+      .then((r) => r.json())
+      .then((d) => {
+        document.getElementById("apiStatus").textContent =
+          "✓ Connected: " + JSON.stringify(d);
+        document.getElementById("apiStatus").style.color = "#06d6a0";
+      })
+      .catch(() => {
+        document.getElementById("apiStatus").textContent =
+          "✗ Cannot connect.\nRun: python -m uvicorn api:app --reload\n(Simulation mode active)";
+        document.getElementById("apiStatus").style.color = "#ff8888";
+      });
+  }
+  function saveSettings() {
+    alert("Settings saved (demo mode)");
+  }
+
+  function animateCounter(id, target) {
+    const el = document.getElementById(id);
+    let s = 0,
+      step = target / 90;
+    const t = setInterval(() => {
+      s = Math.min(s + step, target);
+      el.textContent = Math.round(s);
+      if (s >= target) clearInterval(t);
+    }, 16);
+  }
+
+  window.addEventListener("load", () => {
+    // Init all fields so colors/bars are correct from start
+    Object.keys(FIELDS).forEach((k) => syncAll(k, FIELDS[k].def));
+    animateCounter("c1", 347);
+    animateCounter("c2", 146);
+    renderTable(patients);
+    renderModelChips();
+    renderConfusionMatrix();
+
+    new Chart(document.getElementById("trendChart"), {
+      type: "line",
+      data: {
+        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        datasets: [
+          {
+            label: "Total",
+            data: [42, 38, 55, 61, 48, 44, 59],
+            borderColor: "#4f8ef7",
+            backgroundColor: "rgba(79,142,247,.08)",
+            tension: 0.4,
+            fill: true,
+            pointRadius: 4,
+            pointBackgroundColor: "#4f8ef7",
+          },
+          {
+            label: "High Risk",
+            data: [18, 15, 24, 27, 19, 18, 26],
+            borderColor: "#ff6b6b",
+            backgroundColor: "rgba(255,107,107,.05)",
+            tension: 0.4,
+            fill: true,
+            pointRadius: 3,
+            pointBackgroundColor: "#ff6b6b",
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: {
+            grid: { color: "rgba(42,53,88,.4)" },
+            ticks: { color: "#4a5c8a", font: { size: 11 } },
+          },
+          y: {
+            grid: { color: "rgba(42,53,88,.4)" },
+            ticks: { color: "#4a5c8a", font: { size: 11 } },
+          },
+        },
+      },
+    });
+    new Chart(document.getElementById("riskChart"), {
+      type: "doughnut",
+      data: {
+        labels: ["High Risk", "Low Risk"],
+        datasets: [
+          {
+            data: [42, 58],
+            backgroundColor: ["rgba(255,107,107,.8)", "rgba(6,214,160,.7)"],
+            borderColor: ["#ff6b6b", "#06d6a0"],
+            borderWidth: 2,
+            hoverOffset: 8,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: "65%",
+        plugins: { legend: { display: false } },
+      },
+    });
+    new Chart(document.getElementById("ageChart"), {
+      type: "bar",
+      data: {
+        labels: ["21-30", "31-40", "41-50", "51-60", "61+"],
+        datasets: [
+          {
+            label: "High Risk",
+            data: [8, 22, 38, 51, 67],
+            backgroundColor: "rgba(255,107,107,.7)",
+            borderColor: "#ff6b6b",
+            borderWidth: 1,
+            borderRadius: 4,
+          },
+          {
+            label: "Low Risk",
+            data: [92, 78, 62, 49, 33],
+            backgroundColor: "rgba(79,142,247,.6)",
+            borderColor: "#4f8ef7",
+            borderWidth: 1,
+            borderRadius: 4,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: {
+            stacked: true,
+            grid: { display: false },
+            ticks: { color: "#4a5c8a", font: { size: 10 } },
+          },
+          y: {
+            stacked: true,
+            grid: { color: "rgba(42,53,88,.4)" },
+            ticks: { color: "#4a5c8a", font: { size: 10 } },
+          },
+        },
+      },
+    });
+    new Chart(document.getElementById("classChart"), {
+      type: "bar",
+      data: {
+        labels: ["Non-Diabetic", "Diabetic"],
+        datasets: [
+          {
+            data: [500, 268],
+            backgroundColor: ["rgba(6,214,160,.6)", "rgba(255,107,107,.6)"],
+            borderColor: ["#06d6a0", "#ff6b6b"],
+            borderWidth: 2,
+            borderRadius: 6,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: "#4a5c8a" } },
+          y: {
+            grid: { color: "rgba(42,53,88,.4)" },
+            ticks: { color: "#4a5c8a" },
+          },
+        },
+      },
+    });
+    new Chart(document.getElementById("importanceChart"), {
+      type: "bar",
+      data: {
+        labels: [
+          "Glucose",
+          "BMI",
+          "Age",
+          "Pregnancies",
+          "DPF",
+          "Insulin",
+          "BP",
+          "SkinThick",
+        ],
+        datasets: [
+          {
+            data: [0.35, 0.18, 0.12, 0.09, 0.08, 0.07, 0.06, 0.05],
+            backgroundColor: [
+              "rgba(79,142,247,.8)",
+              "rgba(124,58,237,.7)",
+              "rgba(6,214,160,.7)",
+              "rgba(245,158,11,.7)",
+              "rgba(79,142,247,.6)",
+              "rgba(255,107,107,.6)",
+              "rgba(124,58,237,.5)",
+              "rgba(6,214,160,.5)",
+            ],
+            borderRadius: 4,
+          },
+        ],
+      },
+      options: {
+        indexAxis: "y",
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: {
+            grid: { color: "rgba(42,53,88,.4)" },
+            ticks: { color: "#4a5c8a", font: { size: 10 } },
+          },
+          y: {
+            grid: { display: false },
+            ticks: { color: "#8899cc", font: { size: 11 } },
+          },
+        },
+      },
+    });
+    const s0 = [],
+      s1 = [];
+    [
+      89, 85, 78, 92, 107, 115, 94, 88, 76, 103, 98, 86, 79, 81, 113, 95, 84,
+      88, 77, 90,
+    ].forEach((g, i) =>
+      s0.push({
+        x: g,
+        y: [
+          26.6, 23.3, 28.1, 21.1, 26.8, 31.2, 24.7, 23.2, 22.5, 27.1, 24.9,
+          25.6, 21.1, 22.2, 31.4, 26.6, 22.7, 24.3, 20.4, 24.2,
+        ][i],
+      }),
+    );
+    [
+      148, 183, 141, 174, 186, 100, 168, 118, 166, 111, 154, 128, 193, 137, 126,
+      138, 147, 157, 133, 144,
+    ].forEach((g, i) =>
+      s1.push({
+        x: g,
+        y: [
+          33.6, 23.3, 37.1, 30.5, 34.6, 30.5, 39.3, 38.5, 32.3, 23.2, 42.2,
+          40.3, 25.6, 37.6, 27.6, 41.3, 43.5, 36.8, 38.5, 33.2,
+        ][i],
+      }),
+    );
+    new Chart(document.getElementById("scatterChart"), {
+      type: "scatter",
+      data: {
+        datasets: [
+          {
+            label: "Non-Diabetic",
+            data: s0,
+            backgroundColor: "rgba(6,214,160,.5)",
+            borderColor: "#06d6a0",
+            pointRadius: 5,
+            pointStyle: "circle",
+          },
+          {
+            label: "Diabetic",
+            data: s1,
+            backgroundColor: "rgba(255,107,107,.5)",
+            borderColor: "#ff6b6b",
+            pointRadius: 5,
+            pointStyle: "triangle",
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: "Glucose (mg/dL)",
+              color: "#4a5c8a",
+              font: { size: 11 },
+            },
+            grid: { color: "rgba(42,53,88,.4)" },
+            ticks: { color: "#4a5c8a" },
+          },
+          y: {
+            title: {
+              display: true,
+              text: "BMI",
+              color: "#4a5c8a",
+              font: { size: 11 },
+            },
+            grid: { color: "rgba(42,53,88,.4)" },
+            ticks: { color: "#4a5c8a" },
+          },
+        },
+      },
+    });
+    new Chart(document.getElementById("modelCompChart"), {
+      type: "bar",
+      data: {
+        labels: ["Tuned XGB", "SMOTE XGB", "Weighted XGB", "Baseline XGB"],
+        datasets: [
+          {
+            label: "AUC-ROC",
+            data: [0.8211, 0.8291, 0.8207, 0.823],
+            backgroundColor: "rgba(79,142,247,.7)",
+            borderColor: "#4f8ef7",
+            borderWidth: 1,
+            borderRadius: 4,
+          },
+          {
+            label: "Accuracy",
+            data: [0.7403, 0.7338, 0.7468, 0.7792],
+            backgroundColor: "rgba(6,214,160,.6)",
+            borderColor: "#06d6a0",
+            borderWidth: 1,
+            borderRadius: 4,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { color: "#4a5c8a", font: { size: 10 } },
+          },
+          y: {
+            min: 0.6,
+            grid: { color: "rgba(42,53,88,.4)" },
+            ticks: {
+              color: "#4a5c8a",
+              font: { size: 10 },
+              callback: (v) => v.toFixed(2),
+            },
+          },
+        },
+      },
+    });
+  });
+</script>
